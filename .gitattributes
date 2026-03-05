@@ -1,2 +1,4 @@
+relevant-evidence-detection/checkpoints/*.pt filter=lfs diff=lfs merge=lfs -text
+relevant-evidence-detection/data/eval/**/*.npy filter=lfs diff=lfs merge=lfs -text
 *.pt filter=lfs diff=lfs merge=lfs -text
 *.npy filter=lfs diff=lfs merge=lfs -text
