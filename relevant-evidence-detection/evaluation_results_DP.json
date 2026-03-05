@@ -1,0 +1,10 @@
+{
+    "true": 0.8512,
+    "miscaptioned": 0.235,
+    "out_of_context": NaN,
+    "true_v_miscaptioned": 0.6175,
+    "true_v_ooc": 0.8512,
+    "miscaptioned_v_ooc": 0.235,
+    "accuracy": 0.6175,
+    "bal_accuracy": 0.5431
+}
