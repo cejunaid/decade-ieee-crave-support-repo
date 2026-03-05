@@ -53,11 +53,21 @@ outcontext-misinfo-progress/
 Each experiment directory contains a `data/eval/` folder with **pre-computed feature files** for evaluation on the following datasets:
 
 * **DP**
-* Dataset Explorer is available at: https://decade.ac.uk/data_annotation_dashboard/verify_data
-* Can be downloaded from: https://decade.ac.uk/crave_dataset/ by typing wget -r -np -nH --cut-dirs=1 https://decade.ac.uk/crave_dataset/
+
+  * Dataset Explorer is available at: https://decade.ac.uk/data_annotation_dashboard/verify_data
+  * Can be downloaded from: https://decade.ac.uk/crave_dataset/
+  * Example download command:
+
+    ```
+    wget -r -np -nH --cut-dirs=1 https://decade.ac.uk/crave_dataset/
+    ```
+
 * **FIVEPILS**
+
 * **MMFakeBench**
+
 * **VERITE**
+
 
 These files contain **pre-extracted multimodal features** (e.g., image embeddings and associated metadata) so that evaluation can be run directly **without recomputing features**.
 
