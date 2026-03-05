@@ -12,7 +12,7 @@ Each directory contains **evaluation-ready datasets, pretrained model checkpoint
 # Repository Structure
 
 ```
-RedDot/
+relevant-evidence-detection/
 │
 ├── checkpoints/
 │   └── best model checkpoint (.pt)
@@ -25,6 +25,8 @@ RedDot/
 │       └── VERITE/
 │
 └── checkpoint-evaluation.py
+├── model.py
+├── utils.py
 
 
 outcontext-misinfo-progress/
@@ -40,6 +42,8 @@ outcontext-misinfo-progress/
 │       └── VERITE/
 │
 └── checkpoint-evaluation.py
+├── model.py
+├── utils.py
 ```
 
 ---
