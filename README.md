@@ -49,7 +49,7 @@ outcontext-misinfo-progress/
 ## Example: Collecting Tweet Text and Image Data (X API)
 
 The CRAVE dataset was collected by retrieving publicly available posts from the **X (formerly Twitter) API**, including tweet text and associated media.
-Below is a simplified example demonstrating how tweet text and image URLs can be retrieved and stored.
+Below is a simplified example demonstrating how tweet text and image data can be retrieved and stored using the **tweet ID as the filename**.
 
 ### Requirements
 
@@ -65,61 +65,70 @@ pip install tweepy requests
 import tweepy
 import requests
 import os
+import json
 
-# Replace with your credentials from https://developer.twitter.com/
+# Replace with your credentials
 BEARER_TOKEN = "YOUR_BEARER_TOKEN"
 
 client = tweepy.Client(bearer_token=BEARER_TOKEN)
 
-# Tweet ID example
+# Example tweet id
 tweet_id = "1234567890123456789"
 
 response = client.get_tweet(
     tweet_id,
     expansions=["attachments.media_keys"],
     media_fields=["url"],
-    tweet_fields=["text","created_at"]
+    tweet_fields=["text", "created_at"]
 )
 
 tweet = response.data
-media = {m.media_key: m for m in response.includes["media"]}
+media = {m.media_key: m for m in response.includes.get("media", [])}
 
-print("Tweet text:", tweet.text)
+# Create directory
+os.makedirs("tweet_data", exist_ok=True)
 
-os.makedirs("tweet_data/images", exist_ok=True)
+tweet_record = {
+    "tweet_id": tweet_id,
+    "text": tweet.text,
+    "created_at": str(tweet.created_at),
+    "images": []
+}
 
+# Download images and name them using tweet id
 if tweet.attachments:
-    for key in tweet.attachments["media_keys"]:
+    for i, key in enumerate(tweet.attachments["media_keys"]):
         image_url = media[key].url
-        filename = image_url.split("/")[-1]
+
+        image_filename = f"{tweet_id}_{i}.jpg"
+        image_path = f"tweet_data/{image_filename}"
 
         img_data = requests.get(image_url).content
-        with open(f"tweet_data/images/{filename}", "wb") as f:
+        with open(image_path, "wb") as f:
             f.write(img_data)
 
-        print("Saved image:", filename)
+        tweet_record["images"].append(image_filename)
+
+# Save tweet text with tweet id filename
+json_filename = f"tweet_data/{tweet_id}.json"
+with open(json_filename, "w") as f:
+    json.dump(tweet_record, f, indent=2)
+
+print(f"Saved tweet metadata to {json_filename}")
 ```
 
-### Output
-
-The script saves:
+### Output Structure
 
 ```
 tweet_data/
 │
-├── images/
-│   └── tweet_image.jpg
+├── 1234567890123456789.json
+├── 1234567890123456789_0.jpg
+├── 1234567890123456789_1.jpg
 ```
 
-and prints the tweet text to the console.
+The **tweet ID is used as the identifier for both text and images**, making it easy to associate tweet metadata with its corresponding media files.
 
-### Notes
-
-* Only publicly available tweets were accessed.
-* Images were downloaded from the media URLs provided by the X API.
-* Metadata such as tweet text, timestamps, and media URLs were stored for downstream multimodal misinformation analysis.
-
-Refer to the official X API documentation for authentication and usage details.
 
 
 ---
