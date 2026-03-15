@@ -45,6 +45,82 @@ outcontext-misinfo-progress/
 ├── model.py
 ├── utils.py
 ```
+---
+## Example: Collecting Tweet Text and Image Data (X API)
+
+The CRAVE dataset was collected by retrieving publicly available posts from the **X (formerly Twitter) API**, including tweet text and associated media.
+Below is a simplified example demonstrating how tweet text and image URLs can be retrieved and stored.
+
+### Requirements
+
+Install the Python client:
+
+```bash
+pip install tweepy requests
+```
+
+### Example Code
+
+```python
+import tweepy
+import requests
+import os
+
+# Replace with your credentials from https://developer.twitter.com/
+BEARER_TOKEN = "YOUR_BEARER_TOKEN"
+
+client = tweepy.Client(bearer_token=BEARER_TOKEN)
+
+# Tweet ID example
+tweet_id = "1234567890123456789"
+
+response = client.get_tweet(
+    tweet_id,
+    expansions=["attachments.media_keys"],
+    media_fields=["url"],
+    tweet_fields=["text","created_at"]
+)
+
+tweet = response.data
+media = {m.media_key: m for m in response.includes["media"]}
+
+print("Tweet text:", tweet.text)
+
+os.makedirs("tweet_data/images", exist_ok=True)
+
+if tweet.attachments:
+    for key in tweet.attachments["media_keys"]:
+        image_url = media[key].url
+        filename = image_url.split("/")[-1]
+
+        img_data = requests.get(image_url).content
+        with open(f"tweet_data/images/{filename}", "wb") as f:
+            f.write(img_data)
+
+        print("Saved image:", filename)
+```
+
+### Output
+
+The script saves:
+
+```
+tweet_data/
+│
+├── images/
+│   └── tweet_image.jpg
+```
+
+and prints the tweet text to the console.
+
+### Notes
+
+* Only publicly available tweets were accessed.
+* Images were downloaded from the media URLs provided by the X API.
+* Metadata such as tweet text, timestamps, and media URLs were stored for downstream multimodal misinformation analysis.
+
+Refer to the official X API documentation for authentication and usage details.
+
 
 ---
 
