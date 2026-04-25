@@ -1,7 +1,7 @@
 # Multimodal Misinformation Evaluation Resources
 
-⚠️ **Dataset is hosted externally:**
-👉 https://cvssp.org/data/crave
+**Dataset is hosted externally:**
+at https://cvssp.org/data/crave
 
 ---
 
