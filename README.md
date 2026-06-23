@@ -190,3 +190,17 @@ The **tweet ID is used as a consistent identifier** for both text and images.
 * Raw social media content may require rehydration via official APIs where applicable
 
 ---
+
+## Citation
+
+If you find this work useful for your research, please cite our preprint. This citation will be updated to reflect the full IEEE Transactions on Computational Social Systems (TCSS) version upon its final publication.
+
+```bibtex
+@article{dey2025fact,
+  title={Fact-checking with Contextual Narratives: Leveraging Retrieval-Augmented LLMs for Social Media Analysis},
+  author={Dey, Arka Ujjal and Awan, Muhammad Junaid and Channing, Georgia and de Witt, Christian Schroeder and Collomosse, John},
+  journal={arXiv preprint arXiv:2504.10166},
+  year={2025}
+}
+```
+
